@@ -45,8 +45,8 @@ if(mysqli_num_rows($post_query) > 0){
                     <td>{$post['category_name']}</td>
                     <td>{$post['post_date']}</td>
                     <td>{$post['username']} ({$user_role})</td>
-                    <td class='edit'><a href='update-post.php'><i class='fa fa-edit'></i></a></td>
-                    <td class='delete'><a href='delete-post.php'><i class='fa fa-trash-o'></i></a></td>
+                    <td class='edit' id='edit-post' data-ep_id='{$post['post_id']}'><a href=''><i class='fa fa-edit'></i></a></td>
+                    <td class='delete' id='delete-post' data-dp_id='{$post['post_id']}'><a href=''><i class='fa fa-trash-o'></i></a></td>
                 </tr>";
     $sl_no++;
     }
@@ -69,6 +69,22 @@ if(mysqli_num_rows($post_query) > 0){
                 $output.="<li class='{$active}'><a href='' id='{$p}'>{$p}</a></li>";
             }
     $output.= "</ul>";
+}else{
+    $output.="<table class='content-table'>
+                <thead>
+                    <th>S.No.</th>
+                    <th>Title</th>
+                    <th>Category</th>
+                    <th>Date</th>
+                    <th>Author</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </thead>
+                <tbody>
+                    <tr><td colspan='7'>
+                        <h3>Post not found</h3>
+                    </td></tr>
+                </tbody>";
 }
 echo $output;
 

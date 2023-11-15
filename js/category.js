@@ -96,7 +96,7 @@ $(document).ready(function () {
         });
     });
 
-    // Delete User
+    // Delete Category
     $(document).on("click",".delete_cat",function(e){
         e.preventDefault();
         if(confirm("Are you want to sure delete this Category?")){

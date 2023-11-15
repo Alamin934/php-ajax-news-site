@@ -10,6 +10,7 @@ if($_SERVER["REQUEST_METHOD"]=="POST" && $_GET['action']=='cat'){
     $cat_query = mysqli_query($conn, $cat_sql) or die("User Query Failed");
     
     if(mysqli_num_rows($cat_query)>0){
+        echo '<option value="" selected disabled> Select Category</option>';
         while($cat = mysqli_fetch_assoc($cat_query)){
             echo "<option value='{$cat['category_id']}'>{$cat['category_name']}</option>";
         }
@@ -52,8 +53,11 @@ if($_SERVER["REQUEST_METHOD"]=="POST" && $_GET['action']=='post'){
             die();
         }
 
-        $post_sql= "INSERT INTO post(title, description, category, post_date, author, post_img) VALUES('{$post_title}', '{$post_desc}', {$post_cat}, '{$post_date}', {$post_author}, '{$new_name}')";
-        if(mysqli_query($conn, $post_sql)){
+        $post_sql= "INSERT INTO post(title, description, category, post_date, author, post_img) VALUES('{$post_title}', '{$post_desc}', {$post_cat}, '{$post_date}', {$post_author}, '{$new_name}');";
+
+        $post_sql.= "UPDATE category SET post = post + 1 WHERE category_id = {$post_cat}";
+
+        if(mysqli_multi_query($conn, $post_sql)){
             echo 1;
         }else{
             echo 0;
