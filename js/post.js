@@ -35,62 +35,77 @@ $(document).ready(function () {
             }
         });
 
-        // Add/Insert Post to DB
-        $("#submit-post").submit(function(e){
-            e.preventDefault();
-            var postData = new FormData(this);;
-            
-            $.ajax({
-                type: "POST",
-                url: domain+"admin/inc/post/add-post.php?action=post",
-                data: postData,
-                contentType: false,
-                processData: false,
-                success: function (post) {
-                    if(post == 1){
-                        $(".addPostModal").fadeOut();
-                        load_post();
-                        $(this).trigger("reset");
-                        alert("Post Inserted Sucessfully");
-                    }
+    });
+    
+    // Add/Insert Post to DB
+    $("#submit-post").submit(function(e){
+        e.preventDefault();
+        var postData = new FormData(this);;
+        
+        $.ajax({
+            type: "POST",
+            url: domain+"admin/inc/post/add-post.php?action=post",
+            data: postData,
+            contentType: false,
+            processData: false,
+            success: function (post) {
+                if(post == 1){
+                    $(".addPostModal").fadeOut();
+                    load_post();
+                    $(this).trigger("reset");
+                    alert("Post Inserted Sucessfully");
                 }
-            });
+            }
         });
-
     });
     
 
-    
 
-
-    // Show Modal & Update Post
+    // Show Modal Update Post
     $(document).on("click", "#edit-post", function(e){
         e.preventDefault();
-        const edit_id = $(this).data("ep_id");
-
         $(".updatePostModal").fadeIn();
+        const edit_id = $(this).data("ep_id");
+        // Load Post for update   
+        $.ajax({
+            type: "POST",
+            url: domain+"admin/inc/post/load-update-post.php",
+            data: {id: edit_id},
+            success: function (response) {
+                if(response){
+                    $("#loadPostForm").html(response);
+                }
+            }
+        });
 
         
-        // $.ajax({
-        //     type: "POST",
-        //     url: domain+"admin/inc/post/delete-post.php",
-        //     data: {id: del_id},
-        //     success: function (response) {
-        //         if(response == 1){
-        //             load_post();
-        //             alert("Post Deleted Successfully");
-        //             $(element).closest("tr").hide();
-        //         }else{
-        //             alert("Post Can't Deleted");
-        //         }
-        //     }
-        // });
-        
+    });
 
+    // Update Post
+    $(".update_post").submit(function(e){
+        e.preventDefault();
+        var postForm =new FormData(this);
+        var old_cat = $("#old_post_cat").val();
+        $.ajax({
+            type: "POST",
+            url: `${domain}admin/inc/post/update-post.php?old_cat=${old_cat}`,
+            data: postForm,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                if(response == 1){
+                    alert("Post Update Successfully");
+                    load_post();
+                    $(".updatePostModal").fadeOut();
+                }else{
+                    alert("Post Can't Update");
+                }
+            }
+        });
     });
 
     // Hide Modal
-    $("#close-btn").click(function(){
+    $(document).on("click", "#close-btn",function(){
         $(".addPostModal").fadeOut();
         $(".updatePostModal").fadeOut();
     });

@@ -1,6 +1,6 @@
 <?php
 include "inc/config.php";
-session_start();
+
 if(!isset($_SESSION['user_name'])){
     header("Location: {$hosturl}/admin");
 }
