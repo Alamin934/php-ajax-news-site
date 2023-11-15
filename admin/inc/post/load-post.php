@@ -19,6 +19,8 @@ $post_sql = "SELECT post.post_id,post.title,post.post_date,category.category_nam
 $post_query = mysqli_query($conn, $post_sql) or die("Load Post Query Failed");
 
 $output = "";
+
+$sl_no = $offset +1;
 if(mysqli_num_rows($post_query) > 0){
     $output.="<table class='content-table'>
                 <thead>
@@ -38,7 +40,7 @@ if(mysqli_num_rows($post_query) > 0){
             $user_role = "User";
         }
         $output.= "<tr>
-                    <td class='id'>{$post['post_id']}</td>
+                    <td class='id'>{$sl_no}</td>
                     <td>{$post['title']}</td>
                     <td>{$post['category_name']}</td>
                     <td>{$post['post_date']}</td>
@@ -46,6 +48,7 @@ if(mysqli_num_rows($post_query) > 0){
                     <td class='edit'><a href='update-post.php'><i class='fa fa-edit'></i></a></td>
                     <td class='delete'><a href='delete-post.php'><i class='fa fa-trash-o'></i></a></td>
                 </tr>";
+    $sl_no++;
     }
     $output.="  </tbody>
             </table>";

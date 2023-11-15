@@ -48,18 +48,27 @@ $(document).ready(function () {
                 contentType: false,
                 processData: false,
                 success: function (post) {
-                    console.log(post);
-                    
+                    if(post == 1){
+                        $(".addPostModal").fadeOut();
+                        load_post();
+                        $(this).trigger("reset");
+                        alert("Post Inserted Sucessfully");
+                    }
                 }
             });
         });
+
     });
     
 
     // Hide Modal
     $("#close-btn").click(function(){
         $(".addPostModal").fadeOut();
-    })
+    });
+
+
+    // Delete Post
+    
 
 
 
